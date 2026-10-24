@@ -61,6 +61,7 @@ function sourceChanged() {
   state.revision += 1;
   byId("char-count").textContent = source.value.length.toLocaleString() + " 字符";
   resetResults();
+  setMessage("scan-message", "");
 }
 
 async function api(path, body) {

@@ -39,7 +39,7 @@ python -m pip install slither-analyzer
 
 ### Ollama
 
-安装并启动 [Ollama](https://ollama.com/download)，下载希望使用的代码模型，例如 ollama pull qwen2.5-coder:7b。界面中填入对应模型名称，完成规则扫描后再点击“请求本地 AI 分析”。本应用直连 127.0.0.1:11434 的 [Ollama API](https://github.com/ollama/ollama/blob/main/docs/api.md)；模型不存在或服务未启动时会提示错误。首次加载模型可能较慢。为了保护源码，应用拒绝名称以 :cloud 结尾的 [Ollama 云端模型](https://ollama.com/download)。如果你配置了自定义模型别名或代理服务，应自行确认它确实在本机推理。
+安装并启动 [Ollama](https://ollama.com/download)，下载希望使用的代码模型，例如 ollama pull qwen2.5-coder:7b。界面中填入对应模型名称，完成规则扫描后再点击“请求本地 AI 分析”。本应用直连 127.0.0.1:11434 的 [Ollama API](https://github.com/ollama/ollama/blob/main/docs/api.md)；模型不存在或服务未启动时会提示错误。首次加载模型可能较慢。为了保护源码，应用拒绝名称以 :cloud 或 -cloud 结尾的 [Ollama 云端模型](https://ollama.com/blog/cloud-models)。Ollama 允许通过本地接口调用云端模型，因此如果你配置了自定义模型别名或代理服务，请自行确认它确实在本机推理。
 
 ## 隐私与安全边界
 

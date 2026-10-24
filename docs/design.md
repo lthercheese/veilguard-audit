@@ -2,7 +2,7 @@
 
 ## Intent
 
-A local-first, open-source assistant for an initial review of Solidity source. A developer can paste or load one `.sol` file, inspect traceable rule findings, and explicitly ask a locally running AI model for a second opinion. This helps teams share a review without sending unpublished contract code to a hosted service.
+A local-first, open-source assistant for an initial review of Solidity source. A developer can paste or load one `.sol` file, inspect traceable rule findings, and explicitly ask a locally running AI model for a second opinion. Users must verify that custom Ollama model aliases really run locally before sending unpublished contract code to them.
 
 ## Scope
 
@@ -10,7 +10,7 @@ A local-first, open-source assistant for an initial review of Solidity source. A
 - Built-in conservative pattern rules with line numbers, severity, evidence, and remediation. These are leads, not confirmed vulnerabilities.
 - Optional Slither results when the user has installed Slither and a compatible compiler. Slither failure is reported, never silently replaced.
 - Optional Ollama review on `127.0.0.1:11434`, invoked only by the user. Model output is labeled unverified and kept separate from rule results.
-- Local HTTP UI and JSON API, bound to loopback. No accounts, database, telemetry, or cloud API calls.
+- Local HTTP UI and JSON API, bound to loopback. No accounts, database, telemetry, or direct cloud API calls.
 - Export a report as JSON from the browser.
 
 ## Boundaries
@@ -21,7 +21,7 @@ No automatic contract deployment, execution, formal verification, repository imp
 
 1. Hosted audit service: convenient collaboration, but conflicts with the sensitive-code privacy goal.
 2. CLI-only local tool: simple and scriptable, but harder to inspect and share findings interactively.
-3. Local web app: keeps code on the developer's machine while making findings and AI suggestions easy to review. Chosen as the default product shape pending user feedback.
+3. Local web app: keeps code on the developer's machine while making findings and AI suggestions easy to review. Chosen after the user selected a web application.
 
 ## Main flow
 

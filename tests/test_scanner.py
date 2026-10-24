@@ -36,6 +36,12 @@ class ScannerTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "Unicode"):
             scan_source("contract A {}\ud800")
 
+    def test_all_findings_are_retained(self):
+        source = "tx.origin;\n" * 101 + 'x.delegatecall("");\n'
+        findings = scan_source(source)
+        self.assertEqual(len(findings), 102)
+        self.assertTrue(any(item["rule_id"] == "delegatecall" for item in findings))
+
 
 if __name__ == "__main__":
     unittest.main()

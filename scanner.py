@@ -4,6 +4,7 @@ This module does not parse Solidity or establish exploitability.
 """
 
 import re
+from bisect import bisect_right
 
 MAX_SOURCE_BYTES = 256 * 1024
 
@@ -77,11 +78,12 @@ def scan_source(source: str) -> list[dict]:
     if source_bytes > MAX_SOURCE_BYTES:
         raise ValueError("source exceeds 256 KiB")
     code = _code_only(source)
+    line_starts = [0] + [match.end() for match in re.finditer("\n", code)]
     findings = []
     seen = set()
     for rule_id, pattern, severity, title, explanation, remediation in RULES:
         for match in re.finditer(pattern, code):
-            line = code.count("\n", 0, match.start()) + 1
+            line = bisect_right(line_starts, match.start())
             if (rule_id, line) in seen:
                 continue
             seen.add((rule_id, line))
@@ -106,4 +108,4 @@ def scan_source(source: str) -> list[dict]:
                 "remediation": remediation,
             })
     rank = {"high": 0, "medium": 1, "low": 2}
-    return sorted(findings, key=lambda item: (rank[item["severity"]], item["line"], item["rule_id"]))[:100]
+    return sorted(findings, key=lambda item: (rank[item["severity"]], item["line"], item["rule_id"]))

@@ -54,6 +54,19 @@ class IntegrationsTests(unittest.TestCase):
     def test_cloud_model_is_rejected_for_privacy(self):
         with self.assertRaisesRegex(ValueError, "cloud"):
             ask_ollama("contract A {}", [], "gemma4:cloud")
+        with self.assertRaisesRegex(ValueError, "cloud"):
+            ask_ollama("contract A {}", [], "gpt-oss:120b-cloud")
+
+    def test_slither_does_not_silently_truncate_findings(self):
+        detectors = [{"check": f"detector-{index}", "impact": "High", "description": "Review lead"} for index in range(101)]
+        output = {"success": True, "results": {"detectors": detectors}}
+        class Process:
+            returncode = 0
+            stdout = json.dumps(output)
+            stderr = ""
+        with patch("integrations.shutil.which", return_value="slither"), patch("integrations.subprocess.run", return_value=Process()), patch("integrations.tempfile.tempdir", str(Path(__file__).parents[1])):
+            result = run_slither("contract A {}")
+        self.assertEqual(len(result["findings"]), 101)
 
     def test_ollama_failure_is_bounded(self):
         with patch("integrations.HTTPConnection", side_effect=OSError("private payload")):
