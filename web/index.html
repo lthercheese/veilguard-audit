@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>VeilGuard — 本地智能合约安全分析</title>
+  <link rel="stylesheet" href="/styles.css">
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <div class="shell">
+    <aside class="sidebar" aria-label="侧边栏">
+      <a class="brand" href="/" aria-label="VeilGuard 首页"><span class="brand-mark">V</span><span>VeilGuard<small>AUDIT WORKSPACE</small></span></a>
+      <div class="side-label">工作空间</div>
+      <nav aria-label="主导航"><a class="nav-item active" href="/"><span class="nav-icon">⌘</span> 合约分析 <span class="nav-arrow">↗</span></a></nav>
+      <div class="side-spacer"></div>
+      <div class="privacy-card"><span class="status-dot"></span><strong>本地优先</strong><p>源码默认只在本机处理。AI 分析仅在你点击后调用本机 Ollama。</p></div>
+      <div class="side-footer">开源安全工具 · 初步审查辅助</div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar"><span class="crumb">工作空间 <span>/</span> 合约分析</span><span class="top-status"><span class="status-dot"></span> LOCAL SESSION</span></header>
+      <div class="content">
+        <section class="hero"><div class="eyebrow"><span class="eyebrow-line"></span> SMART CONTRACT INTELLIGENCE</div><h1>让每一行合约代码<br><em>经得起审视。</em></h1><p>在本机识别值得复核的安全线索，结合可选的 AI 解释，让审计过程更清晰、更可追溯。</p><div class="hero-meta"><span>01 / 本地规则扫描</span><span>02 / 可选 Slither</span><span>03 / 本地 AI 复核</span></div></section>
+
+        <section class="workspace-grid">
+          <div class="panel editor-panel"><div class="panel-head"><div><div class="section-kicker">01 — SOURCE INPUT</div><h2>合约源码</h2></div><span class="pill neutral">Solidity .sol</span></div><div class="file-row"><label class="file-label" for="file-input">↑ <span>导入 .sol 文件</span></label><input id="file-input" type="file" accept=".sol,text/plain"><span id="file-name" class="file-name">或直接在下方粘贴源码</span><button id="demo-btn" class="text-button" type="button">载入示例</button></div><div class="editor-wrap"><div class="editor-bar"><span class="editor-dots"><i></i><i></i><i></i></span><span id="editor-title">Contract.sol</span><span id="char-count">0 字符</span></div><textarea id="source" spellcheck="false" aria-label="Solidity 合约源码" placeholder="// 将 Solidity 合约粘贴在这里..."></textarea></div><div class="editor-bottom"><label class="check"><input id="slither-check" type="checkbox"><span>同时运行 Slither</span></label><span id="slither-hint" class="muted">正在检查本机工具…</span></div><div class="actions"><button id="scan-btn" class="primary-button" type="button"><span>开始安全分析</span><span>→</span></button><button id="clear-btn" class="secondary-button" type="button">清空</button></div><p id="scan-message" class="message" role="status" aria-live="polite"></p></div>
+
+          <div class="side-stack"><div class="panel insight-panel"><div class="section-kicker">SECURITY POSTURE</div><h2>分析概览</h2><div class="ring-wrap"><div class="ring"><span id="total-count">—</span><small>待复核线索</small></div></div><div class="severity-grid"><div><span class="severity-dot high"></span><span>高风险</span><strong id="high-count">0</strong></div><div><span class="severity-dot medium"></span><span>中风险</span><strong id="medium-count">0</strong></div><div><span class="severity-dot low"></span><span>低风险/提示</span><strong id="low-count">0</strong></div></div></div><div class="panel note-panel"><div class="section-kicker">PRIVACY BY DESIGN</div><h3>控制数据的流向</h3><p>规则扫描在本机完成。开启 AI 复核时，源码会发送给 <code>127.0.0.1:11434</code> 的 Ollama 服务，不会由本应用转发到云端。</p><div class="note-foot"><span>◎</span> 无账号 · 无数据库 · 无遥测</div></div></div>
+        </section>
+
+        <section class="results-section"><div class="results-title"><div><div class="section-kicker">02 — FINDINGS</div><h2>检测结果</h2><p>规则命中是审查线索；请结合上下文验证。导出报告含代码片段，分享前请检查。</p></div><button id="export-btn" class="secondary-button" type="button" disabled>↓ 导出 JSON 报告</button></div><div id="findings" class="findings"><div class="empty-state"><div class="empty-icon">⌁</div><strong>等待分析</strong><p>输入合约源码后点击“开始安全分析”。</p></div></div><p id="slither-message" class="tool-message"></p></section>
+
+        <section class="ai-section panel"><div class="ai-heading"><div><div class="section-kicker">03 — OPTIONAL LOCAL AI</div><h2>AI 复核建议 <span class="experimental">实验性</span></h2><p>模型会提出进一步排查的方向，不会替代人工审计结论。</p></div><span class="ai-symbol">✳</span></div><div class="ai-controls"><label for="model">Ollama 模型</label><input id="model" type="text" value="qwen2.5-coder:7b" autocomplete="off" spellcheck="false"><button id="ai-btn" class="ai-button" type="button" disabled>请求本地 AI 分析 <span>↗</span></button></div><p id="ai-message" class="message" role="status" aria-live="polite">先完成规则扫描，再手动请求 AI 复核。</p><pre id="ai-output" class="ai-output" hidden></pre></section>
+        <footer class="footer"><span>VeilGuard Audit · Open Source</span><span>检测结果不构成完整安全审计</span></footer>
+      </div>
+    </main>
+  </div>
+</body>
+</html>
